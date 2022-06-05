@@ -271,7 +271,7 @@ const placeBird = (width, height, depth, position) =>{
 let hit = true
 
 // Build the car chassis
-       const chassisShape = new CANNON.Box(new CANNON.Vec3(13, 0.5, 1))
+       const chassisShape = new CANNON.Box(new CANNON.Vec3(13, 0.5, 2))
        const chassisBody = new CANNON.Body({ mass: 1 })
        const centerOfMassAdjust = new CANNON.Vec3(0, -1, 0)
        chassisBody.addShape(chassisShape, centerOfMassAdjust)
@@ -340,8 +340,8 @@ let hit = true
 
 
 
-                    console.log(123)
-                    console.log(birdPositionsNu)
+                    // console.log(123)
+                    // console.log(birdPositionsNu)
 
 
 
@@ -380,7 +380,7 @@ let hit = true
 
 
        document.addEventListener('keydown', (event) => {
-                 const maxSteerVal = Math.PI / 8
+                 const maxSteerVal = Math.PI / 6
                  const maxSpeed = 100
                  const maxForce = 100
 
@@ -463,7 +463,15 @@ const cannonDebugger = new CannonDebugger(scene, world, {
     //        titular.addEventListener('click', function (e) {
     //          mesh.visible = !mesh.visible
     //          // console.log(cannonMesh)
+
     //        });
+
+    document.addEventListener('keydown', function(event){
+	if(event.key === "Escape"){
+		//do something
+     mesh.visible = !mesh.visible
+	}
+});
          },
 })
 chassisBody.allowSleep = false
@@ -515,7 +523,8 @@ const tick = () =>{
   if(chassisBody && train){
 
   train.quaternion.copy(chassisBody.quaternion)
-  camera.position.z = train.position.z + 50
+  camera.position.y = train.position.y + 50
+
   camera.lookAt(train.position)
   train.rotation.z -= 5.65;
     train.position.copy(chassisBody.position)
