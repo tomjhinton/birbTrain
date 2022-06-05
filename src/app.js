@@ -128,7 +128,7 @@ window.addEventListener('resize', () =>{
 // Base camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 1000)
 camera.position.x = -6.2
-camera.position.y = 15
+camera.position.y = 85
 camera.position.z = 50
 scene.add(camera)
 
@@ -232,7 +232,7 @@ let playerBody
 
 let birdPositionsNu = 0
 
-let birdPositions = [{x: 1,y: 0, z: 0}, {x: 40,y: 0, z: 0}, {x: 80,y: 0, z: 0}]
+let birdPositions = [{x: 1,y: 0, z: -50}, {x: 40,y: 0, z: 50}, {x: 80,y: 0, z: 0}, {x: 180,y: 0, z: 0}]
 
 
 
@@ -330,26 +330,22 @@ let hit = true
        chassisBody.addEventListener("collide",function(e){
 
                     objectsToUpdate.map(x=> {
-                    if(x.mesh.name === 'bird' && e.body === x.body && hit){
+                    if(x.mesh.name === 'bird' && e.body === x.body ){
                       playerBody.position.copy(birdPositions[birdPositionsNu])
                       blood.position.copy(bird.position)
+
                       if(darkMode){
                       blood.material = bakedMaterial
                     }
-                    hit = false
-                    setTimeout(hit = true, 1000)
+
+
 
                     console.log(123)
+                    console.log(birdPositionsNu)
 
 
 
-                      playerBody.velocity.x = 0
-                      playerBody.velocity.y = 0
-                      playerBody.velocity.z = 0
 
-                      playerBody.angularVelocity.x = 0
-                      playerBody.angularVelocity.y = 0
-                      playerBody.angularVelocity.z = 0
 
 
 
@@ -359,7 +355,7 @@ let hit = true
                         birdPositionsNu++
 
                       }
-                      if(birdPositionsNu === birdPositions.length -1){
+                      if(birdPositionsNu >= birdPositions.length -1){
                         birdPositionsNu = 0
                       }
 
@@ -397,8 +393,8 @@ let hit = true
 
                    case 's':
                    case 'ArrowDown':
-                     vehicle.setWheelForce(-maxForce / 2, 2)
-                     vehicle.setWheelForce(maxForce / 2, 3)
+                     vehicle.setWheelForce(-maxForce , 2)
+                     vehicle.setWheelForce(maxForce , 3)
                      break
 
                    case 'a':
@@ -519,12 +515,14 @@ const tick = () =>{
   if(chassisBody && train){
 
   train.quaternion.copy(chassisBody.quaternion)
-
+  camera.position.z = train.position.z + 50
+  camera.lookAt(train.position)
   train.rotation.z -= 5.65;
     train.position.copy(chassisBody.position)
 
 }
-controls.update()
+// controls.update()
+
    cannonDebugger.update()
 
 
